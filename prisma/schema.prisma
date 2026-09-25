@@ -2,6 +2,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator comments {
+  provider = "prisma-db-comments-generator"
+  output   = "./comments"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -21,63 +26,152 @@ enum BrandAssetType {
   FAVICON
 }
 
+/// Protocolos de cuidado apresentados no site.
 model Protocol {
+  /// Identificador interno único do registro.
   id               String        @id @default(cuid())
+  /// Identificador público único e estável; usado pelo seed para reconhecer o protocolo.
   slug             String        @unique
+  /// Nome completo do protocolo.
   name             String
+  /// Nome curto ou tema do protocolo usado na interface.
   shortName        String
+  /// Título de apresentação do protocolo.
   title            String
+  /// Resumo exibido na apresentação do protocolo.
   shortDescription String
+  /// Descrição completa do protocolo; conteúdo sujeito à aprovação profissional.
   description      String
+  /// URL da imagem de apresentação do protocolo.
   image            String
+  /// Símbolo textual usado para representar o protocolo.
   icon             String
+  /// Posição de exibição em ordem crescente; valores menores aparecem primeiro.
   order            Int           @default(0)
+  /// Indica se o registro está habilitado para uso no site.
   active           Boolean       @default(true)
+  /// Data e hora de criação do registro.
   createdAt        DateTime      @default(now())
+  /// Data e hora da última atualização registrada pelo Prisma.
   updatedAt        DateTime      @updatedAt
+  /// Depoimentos associados a este protocolo.
   testimonials     Testimonial[]
 }
 
+/// Depoimentos reais; somente registros PUBLISHED podem ser exibidos publicamente.
 model Testimonial {
+  /// Identificador interno único do registro.
   id         String            @id @default(cuid())
+  /// Nome de exibição autorizado pela pessoa que enviou o depoimento.
   name       String
+  /// Texto do depoimento aprovado para uso.
   text       String
+  /// URL opcional da foto autorizada para publicação.
   photo      String?
+  /// Identificador do protocolo relacionado, quando informado.
   protocolId String?
+  /// Posição de exibição em ordem crescente; valores menores aparecem primeiro.
   order      Int               @default(0)
+  /// Estado editorial: DRAFT é rascunho, PUBLISHED permite exibição pública e ARCHIVED permanece oculto.
   status     TestimonialStatus @default(DRAFT)
+  /// Data e hora de criação do registro.
   createdAt  DateTime          @default(now())
+  /// Data e hora da última atualização registrada pelo Prisma.
   updatedAt  DateTime          @updatedAt
+  /// Protocolo relacionado ao depoimento, quando informado.
   protocol   Protocol?         @relation(fields: [protocolId], references: [id])
 }
 
+/// Perguntas e respostas frequentes exibidas quando ativas.
 model Faq {
+  /// Identificador interno único do registro.
   id        String   @id @default(cuid())
+  /// Chave estável do conteúdo inicial; não editar. Nula para registros sem vínculo com o seed.
+  seedKey   String?  @unique
+  /// Texto da pergunta exibida no site.
   question  String
+  /// Resposta institucional à pergunta; informações de atendimento precisam de aprovação.
   answer    String
+  /// Posição de exibição em ordem crescente; valores menores aparecem primeiro.
   order     Int      @default(0)
+  /// Indica se o registro está habilitado para uso no site.
   active    Boolean  @default(true)
+  /// Data e hora de criação do registro.
   createdAt DateTime @default(now())
+  /// Data e hora da última atualização registrada pelo Prisma.
   updatedAt DateTime @updatedAt
 }
 
+/// Conteúdos institucionais apresentados na seção sobre a essência da marca.
 model InstitutionalCard {
+  /// Identificador interno único do registro.
   id        String   @id @default(cuid())
+  /// Chave estável do conteúdo inicial; não editar. Nula para registros sem vínculo com o seed.
+  seedKey   String?  @unique
+  /// Título do conteúdo institucional.
   title     String
+  /// Texto de apresentação do conteúdo institucional.
   text      String
+  /// Símbolo textual exibido junto ao conteúdo.
   icon      String
+  /// Posição de exibição em ordem crescente; valores menores aparecem primeiro.
   order     Int      @default(0)
+  /// Indica se o registro está habilitado para uso no site.
   active    Boolean  @default(true)
+  /// Data e hora de criação do registro.
   createdAt DateTime @default(now())
+  /// Data e hora da última atualização registrada pelo Prisma.
   updatedAt DateTime @updatedAt
 }
 
+/// Referências de arquivos da identidade visual; ainda não consumidas pela interface.
 model BrandAsset {
+  /// Identificador interno único do registro.
   id         String         @id @default(cuid())
+  /// Finalidade do arquivo na identidade visual; existe no máximo um registro por tipo.
   type       BrandAssetType @unique
+  /// Chave que identifica o arquivo no serviço de armazenamento.
   storageKey String
+  /// Nome do arquivo da marca.
   fileName   String
+  /// Tipo MIME do arquivo, por exemplo image/svg+xml.
   mimeType   String
+  /// Indica se o registro está habilitado para uso no site.
   active     Boolean        @default(true)
+  /// Data e hora de criação do registro.
   createdAt  DateTime       @default(now())
+  /// Data e hora da última atualização registrada pelo Prisma.
+  updatedAt  DateTime       @default(now()) @updatedAt
+}
+
+/// Configurações institucionais preparadas para integração futura; a interface ainda usa lib/site.ts.
+model SiteSettings {
+  /// Identificador das configurações principais: main. O schema não impede a criação de outros IDs.
+  id               String   @id @default("main")
+  /// Nome público da marca.
+  brandName        String
+  /// Nome público do profissional responsável.
+  professionalName String
+  /// Descrição profissional aprovada para publicação.
+  professionalRole String?
+  /// Número de WhatsApp com código do país e DDD, somente dígitos; nulo enquanto não confirmado.
+  whatsapp         String?
+  /// Endereço de e-mail institucional confirmado.
+  email            String?
+  /// URL completa do perfil oficial do Instagram.
+  instagramUrl     String?
+  /// URL completa do canal de agendamento confirmado.
+  bookingUrl       String?
+  /// Endereço de atendimento confirmado; manter nulo enquanto não aprovado.
+  address          String?
+  /// Título opcional para a seção inicial da Home.
+  heroTitle        String?
+  /// Descrição opcional para a seção inicial da Home.
+  heroDescription  String?
+  /// Título opcional preparado para os metadados do site.
+  seoTitle         String?
+  /// Descrição opcional preparada para os metadados do site.
+  seoDescription   String?
+  /// Data e hora da última atualização registrada pelo Prisma.
+  updatedAt        DateTime @updatedAt
 }

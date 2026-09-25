@@ -1,0 +1,355 @@
+{
+  "Protocol": {
+    "table": {
+      "tableName": "Protocol",
+      "comment": "Protocolos de cuidado apresentados no site."
+    },
+    "columns": [
+      {
+        "tableName": "Protocol",
+        "columnName": "id",
+        "comment": "Identificador interno único do registro."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "slug",
+        "comment": "Identificador público único e estável; usado pelo seed para reconhecer o protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "name",
+        "comment": "Nome completo do protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "shortName",
+        "comment": "Nome curto ou tema do protocolo usado na interface."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "title",
+        "comment": "Título de apresentação do protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "shortDescription",
+        "comment": "Resumo exibido na apresentação do protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "description",
+        "comment": "Descrição completa do protocolo; conteúdo sujeito à aprovação profissional."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "image",
+        "comment": "URL da imagem de apresentação do protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "icon",
+        "comment": "Símbolo textual usado para representar o protocolo."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "order",
+        "comment": "Posição de exibição em ordem crescente; valores menores aparecem primeiro."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "active",
+        "comment": "Indica se o registro está habilitado para uso no site."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "createdAt",
+        "comment": "Data e hora de criação do registro."
+      },
+      {
+        "tableName": "Protocol",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  },
+  "Testimonial": {
+    "table": {
+      "tableName": "Testimonial",
+      "comment": "Depoimentos reais; somente registros PUBLISHED podem ser exibidos publicamente."
+    },
+    "columns": [
+      {
+        "tableName": "Testimonial",
+        "columnName": "id",
+        "comment": "Identificador interno único do registro."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "name",
+        "comment": "Nome de exibição autorizado pela pessoa que enviou o depoimento."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "text",
+        "comment": "Texto do depoimento aprovado para uso."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "photo",
+        "comment": "URL opcional da foto autorizada para publicação."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "protocolId",
+        "comment": "Identificador do protocolo relacionado, quando informado."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "order",
+        "comment": "Posição de exibição em ordem crescente; valores menores aparecem primeiro."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "status",
+        "comment": "Estado editorial: DRAFT é rascunho, PUBLISHED permite exibição pública e ARCHIVED permanece oculto."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "createdAt",
+        "comment": "Data e hora de criação do registro."
+      },
+      {
+        "tableName": "Testimonial",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  },
+  "Faq": {
+    "table": {
+      "tableName": "Faq",
+      "comment": "Perguntas e respostas frequentes exibidas quando ativas."
+    },
+    "columns": [
+      {
+        "tableName": "Faq",
+        "columnName": "id",
+        "comment": "Identificador interno único do registro."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "seedKey",
+        "comment": "Chave estável do conteúdo inicial; não editar. Nula para registros sem vínculo com o seed."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "question",
+        "comment": "Texto da pergunta exibida no site."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "answer",
+        "comment": "Resposta institucional à pergunta; informações de atendimento precisam de aprovação."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "order",
+        "comment": "Posição de exibição em ordem crescente; valores menores aparecem primeiro."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "active",
+        "comment": "Indica se o registro está habilitado para uso no site."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "createdAt",
+        "comment": "Data e hora de criação do registro."
+      },
+      {
+        "tableName": "Faq",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  },
+  "InstitutionalCard": {
+    "table": {
+      "tableName": "InstitutionalCard",
+      "comment": "Conteúdos institucionais apresentados na seção sobre a essência da marca."
+    },
+    "columns": [
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "id",
+        "comment": "Identificador interno único do registro."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "seedKey",
+        "comment": "Chave estável do conteúdo inicial; não editar. Nula para registros sem vínculo com o seed."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "title",
+        "comment": "Título do conteúdo institucional."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "text",
+        "comment": "Texto de apresentação do conteúdo institucional."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "icon",
+        "comment": "Símbolo textual exibido junto ao conteúdo."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "order",
+        "comment": "Posição de exibição em ordem crescente; valores menores aparecem primeiro."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "active",
+        "comment": "Indica se o registro está habilitado para uso no site."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "createdAt",
+        "comment": "Data e hora de criação do registro."
+      },
+      {
+        "tableName": "InstitutionalCard",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  },
+  "BrandAsset": {
+    "table": {
+      "tableName": "BrandAsset",
+      "comment": "Referências de arquivos da identidade visual; ainda não consumidas pela interface."
+    },
+    "columns": [
+      {
+        "tableName": "BrandAsset",
+        "columnName": "id",
+        "comment": "Identificador interno único do registro."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "type",
+        "comment": "Finalidade do arquivo na identidade visual; existe no máximo um registro por tipo."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "storageKey",
+        "comment": "Chave que identifica o arquivo no serviço de armazenamento."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "fileName",
+        "comment": "Nome do arquivo da marca."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "mimeType",
+        "comment": "Tipo MIME do arquivo, por exemplo image/svg+xml."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "active",
+        "comment": "Indica se o registro está habilitado para uso no site."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "createdAt",
+        "comment": "Data e hora de criação do registro."
+      },
+      {
+        "tableName": "BrandAsset",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  },
+  "SiteSettings": {
+    "table": {
+      "tableName": "SiteSettings",
+      "comment": "Configurações institucionais preparadas para integração futura; a interface ainda usa lib/site.ts."
+    },
+    "columns": [
+      {
+        "tableName": "SiteSettings",
+        "columnName": "id",
+        "comment": "Identificador das configurações principais: main. O schema não impede a criação de outros IDs."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "brandName",
+        "comment": "Nome público da marca."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "professionalName",
+        "comment": "Nome público do profissional responsável."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "professionalRole",
+        "comment": "Descrição profissional aprovada para publicação."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "whatsapp",
+        "comment": "Número de WhatsApp com código do país e DDD, somente dígitos; nulo enquanto não confirmado."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "email",
+        "comment": "Endereço de e-mail institucional confirmado."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "instagramUrl",
+        "comment": "URL completa do perfil oficial do Instagram."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "bookingUrl",
+        "comment": "URL completa do canal de agendamento confirmado."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "address",
+        "comment": "Endereço de atendimento confirmado; manter nulo enquanto não aprovado."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "heroTitle",
+        "comment": "Título opcional para a seção inicial da Home."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "heroDescription",
+        "comment": "Descrição opcional para a seção inicial da Home."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "seoTitle",
+        "comment": "Título opcional preparado para os metadados do site."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "seoDescription",
+        "comment": "Descrição opcional preparada para os metadados do site."
+      },
+      {
+        "tableName": "SiteSettings",
+        "columnName": "updatedAt",
+        "comment": "Data e hora da última atualização registrada pelo Prisma."
+      }
+    ]
+  }
+}
