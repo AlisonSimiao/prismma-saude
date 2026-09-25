@@ -1,18 +1,41 @@
-import Image from 'next/image'; import { prisma } from '@/lib/prisma';
+import { AboutSection } from '@/components/home/about-section';
+import { AssessmentSection } from '@/components/home/assessment-section';
+import { EssenceSection } from '@/components/home/essence-section';
+import { FinalCta } from '@/components/home/final-cta';
+import { HeroSection } from '@/components/home/hero-section';
+import { IntegrativeSection } from '@/components/home/integrative-section';
+import { ProcessSection } from '@/components/home/process-section';
+import { ProofSection } from '@/components/home/proof-section';
+import { ProtocolsSection } from '@/components/home/protocols-section';
+import { WhatsappFloat } from '@/components/home/whatsapp-float';
+import { Footer } from '@/components/layout/footer';
+import { Header } from '@/components/layout/header';
+import { getHomeContent } from '@/lib/home-content';
+
 export const dynamic = 'force-dynamic';
-const wa='https://wa.me/5500000000000';
-function Mark(){return <svg className="mark" viewBox="0 0 48 48"><path d="M24 4 43 34 24 44 5 34 24 4Z"/><path d="m24 4-9 30m9-30 9 30M5 34h38M24 44V4M15 34l9 10 9-10"/></svg>}
-function Brand(){return <a className="brand" href="#inicio"><Mark/><span><b>PRISMMA</b><small>SAÚDE INTEGRATIVA</small></span></a>}
-export default async function Home(){
- const [protocols,cards,faqs,testimonials]=await Promise.all([prisma.protocol.findMany({where:{active:true},orderBy:{order:'asc'}}),prisma.institutionalCard.findMany({where:{active:true},orderBy:{order:'asc'}}),prisma.faq.findMany({where:{active:true},orderBy:{order:'asc'}}),prisma.testimonial.findMany({where:{status:'PUBLISHED'},orderBy:{order:'asc'}})]);
- return <><header><Brand/><nav><a href="#inicio">Home</a><a href="#prismma">A Prismma</a><a href="#protocolos">Protocolos</a><a href="#fabio">Fabio</a><a href="#contato">Contato</a><a className="button small" href="#contato">Agendar avaliação <b>↗</b></a></nav></header><main>
- <section className="hero" id="inicio"><div className="heroCopy"><p className="eyebrow">PRISMMA SAÚDE INTEGRATIVA</p><h1>Ciência, cuidado<br/>e individualidade.</h1><p className="lead">Um olhar integrativo para compreender você além dos sintomas e construir um plano de cuidado feito para a sua realidade.</p><div className="actions"><a className="button" href="#contato">Agendar avaliação <b>↗</b></a><a className="button ghost" href="#prismma">Conheça a Prismma <b>→</b></a></div><p className="pillars">Dor persistente <i>•</i> Ansiedade <i>•</i> Vitalidade</p></div><div className="portrait"><Image priority fill sizes="(max-width: 800px) 100vw, 53vw" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=1200&q=85" alt="Profissional de saúde em ambiente acolhedor"/><div className="caption"><strong>Fabio Leandro</strong><span>Enfermeiro | PhD</span></div></div></section>
- <section className="section values" id="prismma"><div className="intro"><p className="eyebrow">A ESSÊNCIA DA PRISMMA</p><h2>Um cuidado que começa<br/>por compreender você.</h2></div><div className="valueGrid">{cards.map(c=><article key={c.id}><span>{c.icon}</span><h3>{c.title}</h3><p>{c.text}</p></article>)}</div></section>
- <section className="section protocols" id="protocolos"><div className="heading"><div><p className="eyebrow">PROTOCOLOS PRISMMA</p><h2>Três caminhos, um mesmo propósito:<br/>mais qualidade de vida.</h2></div><a className="textLink" href="#contato">Conheça os protocolos <b>→</b></a></div><div className="protocolGrid">{protocols.map(p=><article className="protocol" key={p.id}><div className="protocolImage"><Image fill sizes="(max-width: 800px) 100vw, 33vw" src={p.image} alt=""/><span>{p.icon}</span></div><div className="protocolCopy"><h3>{p.name}</h3><h4>{p.shortName}</h4><p>{p.shortDescription}</p><a className="textLink" href="#contato">Saiba mais <b>→</b></a></div></article>)}</div></section>
- <section className="section assessment"><div><p className="eyebrow">AVALIAÇÃO INDIVIDUALIZADA</p><h2>Antes de definir o cuidado,<br/>precisamos compreender você.</h2></div><div><p>Uma avaliação que considera sua história, contexto, necessidades, avaliação de enfermagem, exames disponíveis e evolução.</p><p>O acompanhamento é construído com clareza, escuta e atenção ao que faz sentido para a sua vida.</p><div className="sessions"><span>8</span><p><b>Sessões de acompanhamento</b><br/>Uma jornada para observar, cuidar e ajustar.</p></div></div></section>
- <section className="section process"><div className="heading"><div><p className="eyebrow">COMO FUNCIONA</p><h2>Uma jornada estruturada<br/>para o seu cuidado.</h2></div><p>Do primeiro encontro ao acompanhamento.</p></div><div className="steps">{[['01','Avaliação','Conhecimento inicial e escuta ativa.'],['02','Identificação','Análise dos dados, histórico, exames e contexto.'],['03','Protocolo de cuidado','Estratégia individualizada para suas necessidades.'],['04','Acompanhamento','Monitoramento da evolução e ajustes quando necessário.']].map(([n,t,d])=><article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div></section>
- <section className="about" id="fabio"><div className="aboutImage"><Image fill sizes="(max-width:800px) 100vw, 38vw" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1000&q=85" alt="Profissional de saúde em consultório"/></div><div className="aboutCopy"><p className="eyebrow">SOBRE FABIO</p><h2>Enfermeiro <i>|</i> PhD</h2><p>Fabio Leandro une a formação em enfermagem, a trajetória acadêmica e a experiência clínica a uma visão ampla de saúde e cuidado humano.</p><p>Seu trabalho valoriza o processo de enfermagem e a consulta como espaços de escuta, investigação e construção conjunta.</p><a className="textLink" href="#contato">Conheça a trajetória <b>→</b></a></div><aside><p className="eyebrow">FORMAÇÃO E EXPERIÊNCIA</p><ul><li>Enfermagem</li><li>Mestrado e PhD</li><li>Saúde Integrativa</li><li>Processo de Enfermagem</li><li>Consulta de Enfermagem</li></ul></aside></section>
- <section className="integrative"><div className="integrativeImg" /><div className="integrativeCopy"><p className="eyebrow">ENFERMAGEM + SAÚDE INTEGRATIVA</p><h2>Duas forças,<br/>um mesmo cuidado.</h2><p>A enfermagem traz o olhar técnico e humano. A saúde integrativa amplia a visão, conectando ciência, bem-estar e qualidade de vida.</p><a className="button light" href="#contato">Saiba mais <b>→</b></a></div><aside><span>✦</span><h3>Base científica</h3><p>Formação sólida, experiência clínica e pesquisa acadêmica para decisões mais seguras e eficazes.</p><a className="textLink" href="#fabio">Conheça minha trajetória <b>→</b></a></aside></section>
- <section className="section proof"><div><p className="eyebrow">DEPOIMENTOS</p><h2>Histórias reais de quem já viveu essa experiência.</h2>{testimonials.length ? testimonials.map(t=><blockquote key={t.id}>“{t.text}” <cite>{t.name}</cite></blockquote>) : <div className="empty">Em breve, este espaço reunirá experiências compartilhadas por pacientes.</div>}</div><div className="faq"><p className="eyebrow">PERGUNTAS FREQUENTES</p><h2>Tire suas dúvidas antes<br/>do atendimento.</h2>{faqs.map((f,i)=><details key={f.id} open={i===0}><summary>{f.question}<b>+</b></summary><p>{f.answer}</p></details>)}</div></section>
- <section className="cta" id="contato"><p className="eyebrow">PRISMMA SAÚDE INTEGRATIVA</p><h2>Comece a olhar para sua saúde<br/>de uma nova forma.</h2><div><a className="button light" href={wa}>Agendar avaliação <b>↗</b></a><a className="button outline" href={wa}>Falar pelo WhatsApp</a></div></section>
- </main><footer><Brand/><nav><a href="#inicio">Home</a><a href="#prismma">A Prismma</a><a href="#protocolos">Protocolos</a><a href="#fabio">Fabio</a><a href="#contato">Contato</a></nav><div>Instagram &nbsp; WhatsApp &nbsp; E-mail</div><small>© 2026 Prismma Saúde Integrativa. Todos os direitos reservados.</small></footer><a className="whatsapp" href={wa}>◔ WhatsApp</a></> }
+
+export default async function Home() {
+  const content = await getHomeContent();
+  const { settings, protocols, cards, faqs, testimonials } = content;
+
+  return (
+    <>
+      <Header />
+
+      <main>
+        <HeroSection settings={settings} />
+        <EssenceSection cards={cards} />
+        <ProtocolsSection protocols={protocols} />
+        <AssessmentSection />
+        <ProcessSection />
+        <AboutSection settings={settings} />
+        <IntegrativeSection />
+        <ProofSection testimonials={testimonials} faqs={faqs} />
+        <FinalCta settings={settings} />
+      </main>
+
+      <Footer settings={settings} />
+      <WhatsappFloat settings={settings} />
+    </>
+  );
+}
