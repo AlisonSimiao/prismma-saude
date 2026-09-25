@@ -1,3 +1,4 @@
+import styles from './closing.module.css';
 import type { FaqItem } from '@/lib/home-content';
 
 type FaqSectionProps = {
@@ -6,10 +7,10 @@ type FaqSectionProps = {
 
 export function FaqSection({ faqs }: FaqSectionProps) {
   return (
-    <div className="faq">
+    <div className={styles.faq}>
       <p className="eyebrow">PERGUNTAS FREQUENTES</p>
       <h2>
-        Tire suas dúvidas antes
+        Tire suas dúvidas antes{' '}
         <br />
         do atendimento.
       </h2>
@@ -17,7 +18,7 @@ export function FaqSection({ faqs }: FaqSectionProps) {
         <details key={faq.id} open={index === 0}>
           <summary>
             {faq.question}
-            <b>+</b>
+            <b aria-hidden="true">+</b>
           </summary>
           <p>{faq.answer}</p>
         </details>

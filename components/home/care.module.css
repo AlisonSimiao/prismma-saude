@@ -1,0 +1,224 @@
+.assessment {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(32px, 7vw, 100px);
+  align-items: center;
+}
+.assessment h2 {
+  margin-bottom: 0;
+}
+.assessment > div:last-child > p {
+  color: var(--color-text-muted);
+}
+.sessions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+.sessions span {
+  font: 400 3.5rem / 1 var(--font-display), Georgia, serif;
+  color: var(--color-forest);
+}
+.sessions p {
+  font-size: .85rem;
+  margin: 0;
+}
+.sessions b {
+  font-weight: 500;
+}
+.process {
+  padding-top: 0;
+}
+.process > div:first-child {
+  border-top: 1px solid var(--color-border);
+  padding-top: 56px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+.steps article {
+  padding-top: 24px;
+  border-top: 1px solid var(--color-sage);
+}
+.steps span {
+  display: block;
+  margin-bottom: 26px;
+  font: 400 1.8rem var(--font-display), Georgia, serif;
+  color: #617259;
+  font-variant-numeric: tabular-nums;
+}
+.steps h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.steps p {
+  color: var(--color-text-muted);
+  font-size: .88rem;
+  margin-bottom: 0;
+}
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1fr);
+  gap: 48px 72px;
+  background: #eceee5;
+  align-items: center;
+}
+.aboutImage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  grid-row: span 2;
+}
+.aboutImage img {
+  object-fit: cover;
+}
+.aboutCopy p:not(:first-child) {
+  color: var(--color-text-muted);
+  max-width: 55ch;
+}
+.aboutCopy h2 i {
+  font-style: normal;
+  color: #65785c;
+}
+.about aside {
+  border-top: 1px solid var(--color-border);
+  padding-top: 28px;
+}
+.about aside p {
+  margin-bottom: 12px;
+}
+.about ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: .85rem;
+}
+.about li {
+  padding-left: 15px;
+  position: relative;
+}
+.about li::before {
+  position: absolute;
+  left: 0;
+  top: .75em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-forest);
+  content: '';
+}
+.integrative {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 0 72px;
+  background: var(--color-forest);
+  color: var(--color-cream);
+}
+.integrativeImg {
+  background: url('https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1100&q=80') center / cover;
+  min-height: 520px;
+  grid-row: span 2;
+  border-radius: var(--radius-sm);
+}
+.integrative h2 {
+  color: var(--color-cream);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+}
+.integrativeCopy > p:first-child {
+  color: #c3cdbb;
+}
+.integrativeCopy > p:not(:first-child) {
+  color: #d9e1d4;
+  max-width: 52ch;
+}
+.integrative aside {
+  border-top: 1px solid #58746a;
+  margin-top: 36px;
+  padding-top: 28px;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 0 16px;
+}
+.integrative aside > span {
+  color: var(--color-warm);
+  font-size: 1.4rem;
+}
+.integrative aside h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.integrative aside p, .integrative aside a {
+  grid-column: 2;
+  font-size: .9rem;
+}
+.integrative aside p {
+  color: #d9e1d4;
+}
+.integrative aside a {
+  color: var(--color-cream);
+  justify-self: start;
+}
+.integrative aside a:hover {
+  color: var(--color-warm);
+}
+@media (max-width: 1000px) {
+  .about, .integrative {
+    gap: 32px;
+  }
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+@media (max-width: 700px) {
+  .assessment, .about, .integrative {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .assessment h2 br {
+    display: none;
+  }
+  .aboutImage {
+    grid-row: auto;
+    aspect-ratio: 5 / 4;
+  }
+  .aboutImage img {
+    object-position: center 30%;
+  }
+  .integrativeImg {
+    grid-row: auto;
+    min-height: 0;
+    aspect-ratio: 2 / 1;
+  }
+  .integrative aside {
+    margin-top: 0;
+  }
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .steps article {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    column-gap: 20px;
+    padding-block: 24px;
+  }
+  .steps span {
+    grid-row: span 2;
+    margin: 0;
+  }
+  .process > div:first-child {
+    padding-top: 40px;
+  }
+}

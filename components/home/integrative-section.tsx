@@ -1,11 +1,12 @@
+import styles from './care.module.css';
 export function IntegrativeSection() {
   return (
-    <section className="integrative">
-      <div className="integrativeImg" />
-      <div className="integrativeCopy">
+    <section className={`section ${styles.integrative}`}>
+      <div className={styles.integrativeImg} />
+      <div className={styles.integrativeCopy}>
         <p className="eyebrow">ENFERMAGEM + SAÚDE INTEGRATIVA</p>
         <h2>
-          Duas forças,
+          Duas forças,{' '}
           <br />
           um mesmo cuidado.
         </h2>
@@ -14,7 +15,7 @@ export function IntegrativeSection() {
           a visão, conectando ciência, bem-estar e qualidade de vida.
         </p>
         <a className="button light" href="#contato">
-          Saiba mais <b>→</b>
+          Saiba mais <b aria-hidden="true">→</b>
         </a>
       </div>
       <aside>
@@ -25,7 +26,7 @@ export function IntegrativeSection() {
           decisões mais seguras e eficazes.
         </p>
         <a className="textLink" href="#fabio">
-          Conheça minha trajetória <b>→</b>
+          Conheça minha trajetória <b aria-hidden="true">→</b>
         </a>
       </aside>
     </section>

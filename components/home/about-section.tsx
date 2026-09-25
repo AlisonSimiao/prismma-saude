@@ -1,3 +1,4 @@
+import styles from './care.module.css';
 import Image from 'next/image';
 import { Fragment } from 'react';
 
@@ -20,16 +21,16 @@ export function AboutSection({ settings }: AboutSectionProps) {
   const firstName = name.trim().split(/\s+/)[0];
 
   return (
-    <section className="about" id="fabio">
-      <div className="aboutImage">
+    <section className={`section ${styles.about}`} id="fabio">
+      <div className={styles.aboutImage}>
         <Image
           fill
-          sizes="(max-width:800px) 100vw, 38vw"
+          sizes="(max-width: 700px) 90vw, (max-width: 1440px) 40vw, 502px"
           src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1000&q=85"
           alt=""
         />
       </div>
-      <div className="aboutCopy">
+      <div className={styles.aboutCopy}>
         <p className="eyebrow">SOBRE {firstName.toUpperCase()}</p>
         <h2>
           {role ? role.split('|').map((part, index) => (
@@ -45,7 +46,7 @@ export function AboutSection({ settings }: AboutSectionProps) {
           espaços de escuta, investigação e construção conjunta.
         </p>
         <a className="textLink" href="#contato">
-          Conheça a trajetória <b>→</b>
+          Conheça a trajetória <b aria-hidden="true">→</b>
         </a>
       </div>
       <aside>

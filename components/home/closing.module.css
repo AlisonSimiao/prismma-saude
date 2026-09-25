@@ -1,0 +1,136 @@
+.proof {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 64px;
+}
+.withTestimonials {
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+}
+.faq {
+  width: 100%;
+  max-width: 920px;
+  margin-inline: auto;
+}
+.faq h2 {
+  max-width: 22ch;
+  margin-bottom: 40px;
+}
+.faq details {
+  border-top: 1px solid var(--color-border);
+}
+.faq details:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 64px;
+  padding-block: 20px;
+  padding-right: 14px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-forest);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary b {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+.faq details[open] summary b {
+  transform: rotate(45deg);
+}
+.faq details[open] summary {
+  color: #31583d;
+}
+.faq details p {
+  max-width: 68ch;
+  margin: 0 40px 24px 0;
+  color: var(--color-text-muted);
+  font-size: .95rem;
+}
+.testimonials blockquote {
+  margin: 32px 0;
+  border-top: 1px solid var(--color-border);
+  padding-top: 28px;
+  font: 400 1.35rem / 1.6 var(--font-display), Georgia, serif;
+}
+.testimonials cite {
+  display: block;
+  margin-top: 18px;
+  color: var(--color-text-muted);
+  font: normal .82rem var(--font-sans), sans-serif;
+}
+.cta {
+  position: relative;
+  background: var(--color-forest);
+  color: var(--color-cream);
+  text-align: center;
+  padding-block: clamp(72px, 9vw, 128px);
+}
+.cta::before {
+  content: '';
+  display: block;
+  margin: 0 auto 32px;
+  width: 56px;
+  height: 1px;
+  background: var(--color-warm);
+}
+.cta > p {
+  color: #c3cdbb;
+}
+.cta h2 {
+  color: var(--color-cream);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  max-width: 23ch;
+  margin: 0 auto;
+}
+.cta > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 36px;
+}
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: none;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--color-sage);
+  border-radius: 30px;
+  background: var(--color-forest);
+  color: var(--color-cream);
+  font-size: .85rem;
+}
+@media (max-width: 800px) {
+  .withTestimonials {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .whatsapp {
+    display: inline-flex;
+  }
+}
+@media (max-width: 500px) {
+  .cta h2 br {
+    display: none;
+  }
+  .cta > div {
+    flex-direction: column;
+  }
+  .faq details p {
+    margin-right: 0;
+  }
+}

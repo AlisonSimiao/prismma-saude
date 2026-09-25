@@ -1,3 +1,4 @@
+import styles from './brand.module.css';
 import { PrismmaMark } from '@/components/brand/prismma-mark';
 
 type BrandProps = {
@@ -6,8 +7,8 @@ type BrandProps = {
 
 export function Brand({ href = '#inicio' }: BrandProps) {
   return (
-    <a className="brand" href={href}>
-      <PrismmaMark />
+    <a className={styles.brand} href={href}>
+      <PrismmaMark className={styles.mark} />
       <span>
         <b>PRISMMA</b>
         <small>SAÚDE INTEGRATIVA</small>

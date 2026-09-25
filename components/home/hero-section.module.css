@@ -1,0 +1,116 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  max-width: calc(var(--content-width) + 2 * var(--page-gutter));
+  margin: auto;
+  padding: 56px var(--page-gutter) 72px;
+}
+.hero > * {
+  min-width: 0;
+}
+.copy {
+  padding-block: 32px;
+}
+.copy h1 {
+  margin-bottom: 28px;
+}
+.lead {
+  max-width: 47ch;
+  margin-bottom: 32px;
+  color: var(--color-text-muted);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.8;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.pillars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 30px 0 0;
+  font-size: .78rem;
+  color: var(--color-text-muted);
+}
+.pillars i {
+  color: var(--color-forest);
+  font-style: normal;
+}
+.professional {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-border);
+  font-size: .85rem;
+}
+.professional strong {
+  font-weight: 500;
+}
+.professional span {
+  color: var(--color-text-muted);
+}
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--color-surface);
+  border-radius: 48% 48% var(--radius-sm) var(--radius-sm);
+  overflow: hidden;
+}
+.portrait img {
+  object-fit: cover;
+  object-position: 48% center;
+}
+@media (max-width: 1000px) {
+  .hero {
+    gap: 32px;
+  }
+  .copy h1 {
+    font-size: clamp(2.3rem, 4.6vw, 3.5rem);
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 32px;
+    padding-bottom: 48px;
+    gap: 32px;
+  }
+  .copy {
+    padding: 0;
+  }
+  .copy h1 {
+    font-size: clamp(2.15rem, 8.4vw, 3.75rem);
+  }
+  .portrait {
+    aspect-ratio: 5 / 4;
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+    max-height: 480px;
+  }
+  .portrait img {
+    object-position: center 30%;
+  }
+  .professional {
+    margin-top: 28px;
+  }
+  .pillars {
+    gap: 8px;
+    font-size: .75rem;
+  }
+}
+@media (max-width: 375px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pillars {
+    column-gap: 6px;
+    font-size: .7rem;
+  }
+}

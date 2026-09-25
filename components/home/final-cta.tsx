@@ -1,3 +1,4 @@
+import styles from './closing.module.css';
 import { getWhatsappUrl } from '@/lib/whatsapp';
 import type { PublicSiteSettings } from '@/lib/home-content';
 
@@ -10,10 +11,10 @@ export function FinalCta({ settings }: FinalCtaProps) {
   const bookingUrl = settings.bookingUrl ?? whatsappUrl;
 
   return (
-    <section className="cta" id="contato">
+    <section className={`section ${styles.cta}`} id="contato">
       <p className="eyebrow">{settings.brandName.toUpperCase()}</p>
       <h2>
-        Comece a olhar para sua saúde
+        Comece a olhar para sua saúde{' '}
         <br />
         de uma nova forma.
       </h2>
@@ -21,7 +22,7 @@ export function FinalCta({ settings }: FinalCtaProps) {
         <div>
           {bookingUrl && (
             <a className="button light" href={bookingUrl}>
-              Agendar avaliação <b>↗</b>
+              Agendar avaliação <b aria-hidden="true">↗</b>
             </a>
           )}
           {whatsappUrl && (

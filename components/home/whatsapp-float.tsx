@@ -1,3 +1,4 @@
+import styles from './closing.module.css';
 import { getWhatsappUrl } from '@/lib/whatsapp';
 import type { PublicSiteSettings } from '@/lib/home-content';
 
@@ -11,7 +12,7 @@ export function WhatsappFloat({ settings }: WhatsappFloatProps) {
 
   return (
     <a
-      className="whatsapp"
+      className={styles.whatsapp}
       href={whatsappUrl}
       aria-label="Falar pelo WhatsApp"
     >

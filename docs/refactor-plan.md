@@ -12,7 +12,7 @@ Fase 1 concluída em 25/09/2026 na branch `refact/design-1`.
 - PostgreSQL local descartável: atualização do schema anterior com dados, preservação de IDs/edições e repetição do seed em banco existente e vazio verificadas.
 - Nenhuma alteração aplicada ao banco remoto. A aplicação do schema nesse ambiente permanece pendente.
 
-Fase 2 concluída em 25/09/2026 na mesma branch. Os componentes existentes e `lib/home-content.ts` foram preservados e integrados a `SiteSettings.main`, conforme o registro detalhado abaixo. A Fase 3 não foi iniciada.
+Fase 2 concluída em 25/09/2026 na mesma branch. Os componentes existentes e `lib/home-content.ts` foram preservados e integrados a `SiteSettings.main`, conforme o registro detalhado abaixo. Fase 3 concluída em 25/09/2026, conforme o registro abaixo. Fase 4 e SEO não foram iniciados.
 
 Branch de trabalho:
 
@@ -321,111 +321,73 @@ Nenhum banco remoto foi alterado. O schema da Fase 1 precisa estar aplicado no a
 
 ---
 
-# Fase 3 — Design System
+# Fase 3 — Refatoração visual da Home (concluída)
 
-## Objetivo
+## Direção visual e composição
 
-Melhorar organização visual e responsividade sem descaracterizar a Prismma.
+Mantida a identidade forest/sage/cream/graphite/warm, com variações suaves de superfície, bordas e texto. A composição editorial usa largura máxima de 1200 px, espaçamento fluido, hierarquia tipográfica e alternância entre seções claras e verde profundo.
 
----
+- Header com logo, navegação desktop e CTA; navegação móvel real até 1000 px.
+- Hero com colunas proporcionais, imagem contida e tipografia fluida. Nome e papel profissional foram retirados de cima da foto genérica e integrados ao bloco de texto. As fotos originais e `alt=""` foram preservados.
+- Pilares institucionais com divisores, sem caixas ou sombras. Protocolos com fotografias e composição alternada no desktop, preservando os textos do banco.
+- Avaliação e processo com hierarquia mais clara, sequência numerada e percurso vertical em telas estreitas.
+- About com imagem decorativa, conteúdo e formação organizados em uma composição editorial. Saúde integrativa com superfície verde profunda e fotografia original mantida também em mobile.
+- Ausência de depoimentos oculta o bloco e permite à FAQ ocupar a seção. FAQ mantém `details`/`summary`, indicador de estado aberto e navegação nativa por teclado.
+- CTA final funciona com ou sem canais; Footer organiza contatos sem separadores textuais ou blocos vazios.
 
-### `app/globals.css`
+## Componentes, fontes e estilos
 
-Reduzir responsabilidade.
+Criado `components/layout/mobile-navigation.tsx`, único novo Client Component. Usa botão com `aria-expanded`/`aria-controls`, links nativos, fechamento por seleção, Escape, clique externo, saída de foco e mudança para desktop. Escape devolve o foco ao botão. O painel pode rolar em telas baixas; não é um modal e não prende o foco.
 
-Manter principalmente:
+Playfair Display e DM Sans migradas para `next/font/google`, com variáveis CSS no layout, `display: swap` e arquivos de fonte servidos pelo Next.js. Removido o `@import` do Google Fonts. O build precisa acessar o provedor de fontes na primeira obtenção dos arquivos.
 
-- reset;
-- tokens;
-- estilos globais;
-- body;
-- tipografia base.
+`globals.css` agora contém reset, tokens, tipografia, espaçamento compartilhado, botões, links, foco e reduced motion. Estilos específicos ficaram em seis CSS Modules:
 
-Preservar inicialmente:
+- `components/brand/brand.module.css`;
+- `components/layout/layout.module.css`;
+- `components/home/hero-section.module.css`;
+- `components/home/approach.module.css` (essência e protocolos);
+- `components/home/care.module.css` (avaliação, processo, About e saúde integrativa);
+- `components/home/closing.module.css` (FAQ, depoimentos, CTA e WhatsApp flutuante).
 
-```text
-#0F3D37
-#A7B89F
-#F8F7F3
-#374151
-#D4B483
-```
+Os componentes existentes foram adaptados aos módulos, sem mover arquivos ou adicionar bibliotecas. Nenhum arquivo foi removido. Não existia `docs/architecture.md`; a organização de estilos está registrada aqui.
 
----
+## Correção do overflow
 
-### CSS Modules
+A inspeção anterior à mudança mediu 363,03 px na coluna do Hero em uma viewport de 320 px. `grid-template-columns: 1fr`, o tamanho mínimo automático do item e o título a 48 px faziam a palavra “individualidade”, somada aos 48 px de padding, impor uma coluna mais larga que a tela.
 
-Mover estilos específicos para módulos junto aos componentes quando isso melhorar manutenção.
+A correção usa `minmax(0, 1fr)`, `min-width: 0` nos itens, título fluido, quebra de palavras como proteção e ações/pilares que podem se distribuir em novas linhas. Não foi usado `overflow-x: hidden` para mascarar o problema.
 
-Não é necessário criar um CSS Module para cada componente minúsculo.
+## Acessibilidade e validações
 
----
+Adicionados skip link para o conteúdo, nomes das navegações, foco visível, contraste de texto adequado às superfícies, setas decorativas ocultas das tecnologias assistivas e respeito a `prefers-reduced-motion`. Transições limitadas a 180–220 ms.
 
-### Fontes
+Validação em Chrome nos tamanhos exatos:
 
-Remover:
+- 320 × 700;
+- 375 × 812;
+- 768 × 1024;
+- 1024 × 768;
+- 1440 × 900.
 
-```css
-@import url(...)
-```
+Em todos, a largura do documento coincidiu com a viewport, sem elementos da Home ultrapassando a borda direita. Imagens originais carregadas, fontes corretas, inspeção de Hero, grids, FAQ, CTA e Footer sem cortes ou sobreposições. Testados teclado/Tab/Enter, Escape, seleção e clique externo no menu, fechamento ao trocar para desktop, skip link, foco visível, abertura/fechamento de FAQ e reduced motion. Sem erros JavaScript nas verificações.
 
-Migrar para:
+Renderização isolada dos componentes também validou contatos ausentes/presentes, prioridade do booking, WhatsApp condicional, endereço e depoimentos vazios, sem gravar dados no banco.
 
-```text
-next/font/google
-```
+`yarn lint` e `yarn build` aprovados. Schema, seed, consultas, SiteSettings, helper de WhatsApp, `force-dynamic`, cache, SEO e dependências permaneceram intactos. Nenhuma operação de escrita foi realizada no banco.
 
-Fontes preferenciais:
+## Correções finais da revisão
 
-- Playfair Display;
-- DM Sans.
+A revisão visual da Home encontrou dois defeitos reais, corrigidos na mesma branch:
 
----
+- **Concatenação de palavras com `<br>` oculto.** Quatro títulos perdiam o espaço quando a regra responsiva escondia o `<br>` (`.heading h2 br` até 700 px, `.assessment h2 br` até 700 px, `.cta h2 br` até 500 px), produzindo texto como “propósito:mais qualidade de vida.”. Todos os `<br />` dos títulos passaram a ter espaço explícito (`{' '}`) antes da quebra, em `hero-section`, `essence-section`, `protocols-section`, `assessment-section`, `process-section`, `integrative-section`, `faq-section` e `final-cta`. Com isso, `innerText` e `textContent` dos headings permanecem corretos com o `<br>` visível ou oculto.
+- **Sinal “+” do FAQ ultrapassando a divisa.** A rotação de 45° do `<b>` aumentava a caixa pintada além da borda direita do `details` em ~12 px. `summary` recebeu `padding-right: 14px` e o indicador `line-height: 1`, mantendo o giro visual dentro da linha divisória em todas as larguras.
 
-### Menu mobile
+Revalidação após as correções: `yarn lint` e `yarn build` aprovados; sem overflow horizontal em 320, 375, 500, 700, 768, 1024 e 1440 px; nenhum heading com palavras concatenadas; borda direita do “+” girado entre 7 px e 8 px dentro do `details`; contraste sem falhas; menu móvel, skip link, foco visível, reduced motion e navegação por âncoras (`scroll-padding-top: 110px`) comportando-se como esperado.
 
-Criar navegação mobile real.
+## Pendências
 
-Não esconder todos os links simplesmente por largura da tela.
-
-Este pode ser Client Component.
-
----
-
-### Acessibilidade
-
-Adicionar/revisar:
-
-- focus-visible;
-- keyboard navigation;
-- alt;
-- aria-label;
-- contraste;
-- headings;
-- links externos.
-
----
-
-## Critérios da Fase 3
-
-Validar visualmente:
-
-```text
-320px
-375px
-768px
-1024px
-1440px
-```
-
-Executar:
-
-```bash
-yarn lint
-yarn build
-```
-
-Não iniciar SEO automaticamente.
+Substituir fotos genéricas e símbolo provisório somente quando materiais oficiais forem fornecidos. Confirmar conteúdo profissional, modalidades, protocolos e contatos antes da publicação, como previsto na Fase 4. A refatoração preservou os textos existentes e não valida suas afirmações clínicas ou credenciais. Não foram iniciados Fase 4, SEO, BrandAsset, uploads ou administração.
 
 ---
 

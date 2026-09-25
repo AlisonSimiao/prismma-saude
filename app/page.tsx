@@ -22,7 +22,7 @@ export default async function Home() {
     <>
       <Header />
 
-      <main>
+      <main id="conteudo" tabIndex={-1}>
         <HeroSection settings={settings} />
         <EssenceSection cards={cards} />
         <ProtocolsSection protocols={protocols} />

@@ -1,0 +1,149 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-cream);
+  border-bottom: 1px solid var(--color-border);
+}
+.headerInner {
+  max-width: calc(var(--content-width) + 2 * var(--page-gutter));
+  margin: auto;
+  padding: 20px var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2vw, 32px);
+  font-size: .83rem;
+}
+.desktopNav > a:not(:last-child), .footer nav a {
+  padding-block: 10px;
+}
+.desktopNav > a:not(:last-child):hover, .footer nav a:hover {
+  text-decoration: underline;
+}
+.mobile {
+  display: none;
+}
+.menuButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-forest);
+  font-size: .8rem;
+}
+.menuButton svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.mobilePanel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - 90px);
+  overflow-y: auto;
+  padding: 12px var(--page-gutter) 28px;
+  background: var(--color-cream);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 16px 24px #0f3d3714;
+}
+.mobilePanel a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid var(--color-border);
+}
+.mobilePanel a:last-child {
+  margin-top: 18px;
+}
+.mobilePanel[hidden] {
+  display: none;
+}
+.footer {
+  padding-block: 48px 28px;
+}
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: flex-start;
+  gap: 36px;
+}
+.footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  max-width: 300px;
+  font-size: .85rem;
+}
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px 20px;
+  font-size: .85rem;
+}
+.contacts a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+}
+.contacts p {
+  flex-basis: 100%;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: right;
+}
+.copyright {
+  display: block;
+  margin-top: 40px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 22px;
+  color: var(--color-text-muted);
+  font-size: .72rem;
+}
+@media (max-width: 1000px) {
+  .desktopNav {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}
+@media (max-width: 800px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .contacts {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+  .contacts p {
+    text-align: left;
+  }
+}
+@media (max-width: 500px) {
+  .headerInner {
+    padding-block: 14px;
+  }
+  .footerGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .copyright {
+    margin-top: 28px;
+  }
+}

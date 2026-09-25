@@ -1,5 +1,5 @@
+import styles from './layout.module.css';
 import { Brand } from '@/components/brand/brand';
-import { Fragment } from 'react';
 import { mainNav } from '@/lib/site';
 import type { PublicSiteSettings } from '@/lib/home-content';
 import { getWhatsappUrl } from '@/lib/whatsapp';
@@ -17,25 +17,24 @@ export function Footer({ settings }: FooterProps) {
   ].filter((contact): contact is { label: string; href: string } => Boolean(contact.href));
 
   return (
-    <footer>
-      <Brand />
-      <nav>
-        {mainNav.map((item) => (
-          <a key={item.href} href={item.href}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
-      <div>
-        {contacts.map((contact, index) => (
-          <Fragment key={contact.label}>
-            {index > 0 && ' · '}
-            <a href={contact.href}>{contact.label}</a>
-          </Fragment>
-        ))}
-        {settings.address && <p>{settings.address}</p>}
+    <footer className={`section ${styles.footer}`}>
+      <div className={styles.footerGrid}>
+        <Brand />
+        <nav aria-label="Navegação do rodapé">
+          {mainNav.map((item) => (
+            <a key={item.href} href={item.href}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        {(contacts.length > 0 || settings.address) && (
+          <div className={styles.contacts}>
+            {contacts.map((contact) => <a key={contact.label} href={contact.href}>{contact.label}</a>)}
+            {settings.address && <p>{settings.address}</p>}
+          </div>
+        )}
       </div>
-      <small>© {new Date().getFullYear()} {settings.brandName}. Todos os direitos reservados.</small>
+      <small className={styles.copyright}>© {new Date().getFullYear()} {settings.brandName}. Todos os direitos reservados.</small>
     </footer>
   );
 }

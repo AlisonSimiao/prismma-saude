@@ -1,0 +1,38 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-forest);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.brand b {
+  display: block;
+  font: 400 1.35rem var(--font-display), Georgia, serif;
+  letter-spacing: .16em;
+}
+.brand small {
+  display: block;
+  margin-top: 7px;
+  font-size: .52rem;
+  letter-spacing: .19em;
+}
+.mark {
+  width: 44px;
+  height: 48px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+}
+@media (max-width: 375px) {
+  .brand b {
+    font-size: 1.13rem;
+  }
+  .mark {
+    width: 36px;
+  }
+  .brand small {
+    font-size: .46rem;
+  }
+}
