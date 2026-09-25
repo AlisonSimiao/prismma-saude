@@ -1,8 +1,8 @@
 type PrismmaMarkProps = {
-  className?: string;
+  className: string;
 };
 
-export function PrismmaMark({ className = 'mark' }: PrismmaMarkProps) {
+export function PrismmaMark({ className }: PrismmaMarkProps) {
   return (
     <svg className={className} viewBox="0 0 48 48" aria-hidden="true">
       <path d="M24 4 43 34 24 44 5 34 24 4Z" />

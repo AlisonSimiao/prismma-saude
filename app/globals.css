@@ -13,7 +13,6 @@
   --page-gutter: clamp(20px, 5vw, 72px);
   --section-space: clamp(64px, 8vw, 116px);
   --radius-sm: 4px;
-  --radius-md: 12px;
   --radius-lg: 24px;
 }
 * {
@@ -77,9 +76,6 @@ p {
 :focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 5px;
-}
-section[id] {
-  scroll-margin-top: 20px;
 }
 .section {
   padding-block: var(--section-space);

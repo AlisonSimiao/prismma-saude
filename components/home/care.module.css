@@ -29,7 +29,7 @@
 .sessions b {
   font-weight: 500;
 }
-.process {
+:global(.section).process {
   padding-top: 0;
 }
 .process > div:first-child {

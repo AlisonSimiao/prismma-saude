@@ -385,6 +385,19 @@ A revisão visual da Home encontrou dois defeitos reais, corrigidos na mesma bra
 
 Revalidação após as correções: `yarn lint` e `yarn build` aprovados; sem overflow horizontal em 320, 375, 500, 700, 768, 1024 e 1440 px; nenhum heading com palavras concatenadas; borda direita do “+” girado entre 7 px e 8 px dentro do `details`; contraste sem falhas; menu móvel, skip link, foco visível, reduced motion e navegação por âncoras (`scroll-padding-top: 110px`) comportando-se como esperado.
 
+## Revisão de código da fase
+
+Uma revisão do diff da fase apontou pontos de fragilidade na fronteira entre o CSS global e os módulos. As correções foram:
+
+- **Dependência da ordem de injeção de estilos.** `.section` (global, especificidade 0,1,0) e `.process`/`.cta` (módulos, 0,1,0) definem as mesmas propriedades de `padding`. O resultado dependia apenas da ordem de emissão do CSS. Os seletores passaram a ser `:global(.section).process` e `:global(.section).cta` (0,2,0), tornando a precedência explícita e independente da ordem de importação. Os valores computados foram medidos antes e depois e permaneceram idênticos (`process` com `padding-top: 0`, `cta` com o `clamp` próprio).
+- **Deslocamento duplicado nas âncoras.** `scroll-padding-top: 110px` no `html` somava `scroll-margin-top: 20px` de `section[id]`, produzindo 130 px de deslocamento para as seções com `id`. O `scroll-padding-top` já cobre o header fixo; a regra `section[id]` foi removida. As âncoras passam a pousar em 110 px, mantendo distância do header (89 px em desktop, 77 px em mobile).
+- **`className` pendurado no símbolo da marca.** `PrismmaMark` mantinha `className = 'mark'` como padrão após a remoção da regra global `.mark`, o que produziria um SVG sem estilo (300×150) em qualquer chamada futura. O `className` passou a ser obrigatório.
+- **Token sem uso.** `--radius-md` foi removido. `--color-graphite` foi mantido por constar como cor de identidade em `AGENTS.md` §8.
+
+Revalidação: `yarn lint` e `yarn build` aprovados; padding computado idêntico ao baseline; âncoras em 110 px; marca 44×48 sem classes penduradas; sem overflow horizontal e sem concatenação de palavras em 320, 375, 500, 700, 768, 1024 e 1440 px; contraste sem falhas; menu móvel inalterado.
+
+Permanecem como observação, sem alteração nesta fase: a lista de pilares do Hero usa `span` com separadores `•` ocultos das tecnologias assistivas, e a remoção do texto "Em breve…" do bloco de depoimentos, ambos já registrados abaixo.
+
 ## Pendências
 
 Substituir fotos genéricas e símbolo provisório somente quando materiais oficiais forem fornecidos. Confirmar conteúdo profissional, modalidades, protocolos e contatos antes da publicação, como previsto na Fase 4. A refatoração preservou os textos existentes e não valida suas afirmações clínicas ou credenciais. Não foram iniciados Fase 4, SEO, BrandAsset, uploads ou administração.
