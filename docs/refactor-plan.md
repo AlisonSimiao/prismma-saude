@@ -398,6 +398,18 @@ Revalidação: `yarn lint` e `yarn build` aprovados; padding computado idêntico
 
 Permanecem como observação, sem alteração nesta fase: a lista de pilares do Hero usa `span` com separadores `•` ocultos das tecnologias assistivas, e a remoção do texto "Em breve…" do bloco de depoimentos, ambos já registrados abaixo.
 
+## Auditoria de finalização da fase
+
+Revisão da implementação já concluída da Fase 3, com correções pontuais e sem redesenho.
+
+- **Menu móvel — foco na seleção.** `selectItem` não devolve mais o foco ao botão. O menu fecha, a navegação para a âncora segue normalmente e o foco permanece no documento (`document.activeElement` não é o botão). O retorno de foco ao botão foi mantido apenas para o fechamento por `Escape`, em que a devolução é necessária. `aria-expanded`, `aria-controls`, fechamento por clique externo e fechamento na mudança para desktop foram preservados.
+- **Links externos.** `lib/site.ts` passou a expor `externalLinkProps`, que devolve `target="_blank"` e `rel="noopener noreferrer"` apenas para `http(s)`. `mailto:`, `tel:` e âncoras internas não são alterados. O helper é aplicado no WhatsApp flutuante, no CTA final e nos contatos do rodapé. Com os `SiteSettings` atuais, que não possuem Instagram, e-mail nem WhatsApp, nenhum link externo é renderizado; a regra passa a valer quando os contatos forem confirmados.
+- **Âncoras e skip link.** Auditados os cinco destinos de `mainNav`: `#inicio` (Hero), `#prismma` (essência), `#protocolos` (protocolos), `#fabio` (About) e `#contato` (CTA final). Todos existem. O `<main>` já possuía `id="conteudo"` e `tabIndex={-1}`; nada foi necessário. Nenhum link interno aponta para `href="#"`.
+- **Contatos.** Sem `wa.me/5500000000000` no projeto, sem `href="#"` como fallback, botão flutuante inexistente sem WhatsApp válido e rodapé sem contato ausente. `lib/whatsapp.ts` não foi alterado.
+- **Imagens provisórias.** As três `<Image>` usam `alt=""` e o campo `alt` não existe no banco. Nenhuma foto genérica é identificada como Fabio, inclusive a da seção `#fabio`. As imagens não foram substituídas.
+
+Validação de comportamento: `yarn lint` e `yarn build` aprovados. Sem overflow horizontal em 320 × 700, 375 × 812, 768 × 1024, 1024 × 768 e 1440 × 900, com `document.documentElement.scrollWidth` igual a `window.innerWidth` em todos os tamanhos (320/320, 375/375, 768/768, 1024/1024, 1440/1440) e nenhum elemento ultrapassando a borda direita. Menu móvel validado por mouse e teclado: abrir, fechar pelo botão, fechar por `Escape` com retorno de foco ao botão, fechar ao clicar fora, selecionar item sem retorno artificial de foco, navegação por âncora e foco visível de 3 px. Redimensionar para desktop com o menu aberto fecha o painel, oculta o painel e exibe a navegação desktop, sem estado visual residual. Skip link revelado no primeiro `Tab` e `Enter` levando o foco para `#conteudo`, sem ficar atrás do header fixo. FAQ com `<details>`/`<summary>` preservado, teclado funcional, alvo de 64 px e contraste aprovado. `prefers-reduced-motion` reduz transições e desativa a rolagem suave. Playfair Display e DM Sans seguem em `next/font/google`, sem `@import`.
+
 ## Pendências
 
 Substituir fotos genéricas e símbolo provisório somente quando materiais oficiais forem fornecidos. Confirmar conteúdo profissional, modalidades, protocolos e contatos antes da publicação, como previsto na Fase 4. A refatoração preservou os textos existentes e não valida suas afirmações clínicas ou credenciais. Não foram iniciados Fase 4, SEO, BrandAsset, uploads ou administração.

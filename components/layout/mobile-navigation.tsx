@@ -36,7 +36,6 @@ export function MobileNavigation() {
 
   function selectItem() {
     setOpen(false);
-    button.current?.focus({ preventScroll: true });
   }
 
   return (

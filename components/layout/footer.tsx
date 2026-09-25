@@ -1,6 +1,6 @@
 import styles from './layout.module.css';
 import { Brand } from '@/components/brand/brand';
-import { mainNav } from '@/lib/site';
+import { mainNav, externalLinkProps } from '@/lib/site';
 import type { PublicSiteSettings } from '@/lib/home-content';
 import { getWhatsappUrl } from '@/lib/whatsapp';
 
@@ -29,7 +29,7 @@ export function Footer({ settings }: FooterProps) {
         </nav>
         {(contacts.length > 0 || settings.address) && (
           <div className={styles.contacts}>
-            {contacts.map((contact) => <a key={contact.label} href={contact.href}>{contact.label}</a>)}
+            {contacts.map((contact) => <a key={contact.label} href={contact.href} {...externalLinkProps(contact.href)}>{contact.label}</a>)}
             {settings.address && <p>{settings.address}</p>}
           </div>
         )}

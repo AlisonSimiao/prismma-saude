@@ -1,5 +1,6 @@
 import styles from './closing.module.css';
 import { getWhatsappUrl } from '@/lib/whatsapp';
+import { externalLinkProps } from '@/lib/site';
 import type { PublicSiteSettings } from '@/lib/home-content';
 
 type FinalCtaProps = {
@@ -21,12 +22,12 @@ export function FinalCta({ settings }: FinalCtaProps) {
       {(bookingUrl || whatsappUrl) && (
         <div>
           {bookingUrl && (
-            <a className="button light" href={bookingUrl}>
+            <a className="button light" href={bookingUrl} {...externalLinkProps(bookingUrl)}>
               Agendar avaliação <b aria-hidden="true">↗</b>
             </a>
           )}
           {whatsappUrl && (
-            <a className="button outline" href={whatsappUrl}>
+            <a className="button outline" href={whatsappUrl} {...externalLinkProps(whatsappUrl)}>
               Falar pelo WhatsApp
             </a>
           )}
