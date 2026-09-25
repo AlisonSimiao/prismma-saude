@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum TestimonialStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum BrandAssetType {
+  PRIMARY_LOGO
+  DARK_LOGO
+  LIGHT_LOGO
+  SYMBOL
+  FAVICON
+}
+
+model Protocol {
+  id               String        @id @default(cuid())
+  slug             String        @unique
+  name             String
+  shortName        String
+  title            String
+  shortDescription String
+  description      String
+  image            String
+  icon             String
+  order            Int           @default(0)
+  active           Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  testimonials     Testimonial[]
+}
+
+model Testimonial {
+  id         String            @id @default(cuid())
+  name       String
+  text       String
+  photo      String?
+  protocolId String?
+  order      Int               @default(0)
+  status     TestimonialStatus @default(DRAFT)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  protocol   Protocol?         @relation(fields: [protocolId], references: [id])
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InstitutionalCard {
+  id        String   @id @default(cuid())
+  title     String
+  text      String
+  icon      String
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BrandAsset {
+  id         String         @id @default(cuid())
+  type       BrandAssetType @unique
+  storageKey String
+  fileName   String
+  mimeType   String
+  active     Boolean        @default(true)
+  createdAt  DateTime       @default(now())
+}
