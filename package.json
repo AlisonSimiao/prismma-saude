@@ -22,11 +22,9 @@
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "dotenv": "^16.6.1",
     "prisma": "^6.1.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }
