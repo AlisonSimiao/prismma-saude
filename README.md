@@ -91,6 +91,12 @@ yarn start
 
 A Home já está dividida em componentes e usa `lib/home-content.ts` para consultar protocolos e cards ativos, FAQ ativa e somente depoimentos com status `PUBLISHED`. O modelo `BrandAsset` ainda não é consumido pela interface.
 
-`SiteSettings` está preparado no banco, mas a interface ainda utiliza `lib/site.ts`. Conectar essas configurações à Home pertence à próxima fase, assim como revisar o helper de WhatsApp.
+`lib/home-content.ts` lê exclusivamente `SiteSettings.main` com `findUnique`, junto às demais consultas da Home, selecionando apenas os campos utilizados pela interface. Os componentes recebem o tipo público explícito `PublicSiteSettings`; `lib/site.ts` mantém somente a navegação estrutural. Header e marca visual provisória continuam estruturais.
 
-Antes da publicação, confirme os contatos provisórios em `lib/site.ts` (WhatsApp, e-mail e Instagram), substitua as imagens Unsplash e o símbolo provisório por materiais aprovados. Fotos genéricas não representam Fabio. Textos sobre protocolos, formação, modalidades, local e oito sessões precisam de aprovação profissional; o seed preserva o conteúdo inicial e não constitui validação dessas informações.
+Nome da marca, nome/papel profissional, textos do Hero e contatos vêm do banco. Títulos e descrições vazios do Hero preservam os textos institucionais anteriores. Se o registro principal estiver ausente, a página usa a marca e o nome profissional já existentes, sem contatos nem credenciais de fallback. Esse tratamento não oculta falhas de conexão ou schema não aplicado.
+
+O CTA final prioriza `bookingUrl`, seguido de WhatsApp. `lib/whatsapp.ts` normaliza números internacionais e aceita mensagem opcional; sua validação é estrutural e não confirma a existência de uma conta. Contatos ausentes ou inválidos não produzem links, e o botão flutuante desaparece sem WhatsApp. URLs externas aceitam apenas HTTP/HTTPS; e-mail recebe validação básica. O Footer apresenta o endereço somente quando preenchido e gera o copyright com a marca do banco.
+
+`seoTitle` e `seoDescription` permanecem reservados à fase de SEO, sem consulta ou integração nesta etapa. `force-dynamic` e a estratégia de cache existente foram mantidos.
+
+Antes da publicação, preencha somente contatos confirmados em `SiteSettings.main` e substitua as imagens Unsplash e o símbolo provisório por materiais aprovados. Fotos genéricas não representam Fabio. Textos sobre protocolos, formação, modalidades, local e oito sessões precisam de aprovação profissional; o seed preserva o conteúdo inicial e não constitui validação dessas informações.

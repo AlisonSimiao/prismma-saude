@@ -12,7 +12,7 @@ Fase 1 concluída em 25/09/2026 na branch `refact/design-1`.
 - PostgreSQL local descartável: atualização do schema anterior com dados, preservação de IDs/edições e repetição do seed em banco existente e vazio verificadas.
 - Nenhuma alteração aplicada ao banco remoto. A aplicação do schema nesse ambiente permanece pendente.
 
-O código já possuía componentes da Home extraídos e `lib/home-content.ts` antes desta execução. Essa estrutura foi preservada; as fases seguintes abaixo são planejamento e devem ser confrontadas com o código atual. A Fase 2 não foi iniciada nesta execução.
+Fase 2 concluída em 25/09/2026 na mesma branch. Os componentes existentes e `lib/home-content.ts` foram preservados e integrados a `SiteSettings.main`, conforme o registro detalhado abaixo. A Fase 3 não foi iniciada.
 
 Branch de trabalho:
 
@@ -26,7 +26,7 @@ Refatorar a implementação inicial da Prismma Saúde Integrativa para obter uma
 
 ---
 
-# Estado inicial
+# Estado inicial (histórico anterior às fases concluídas)
 
 A implementação atual possui:
 
@@ -57,7 +57,7 @@ A Home consulta:
 
 ---
 
-# Problemas identificados
+# Problemas identificados no planejamento original (histórico)
 
 ## Fundação
 
@@ -282,139 +282,42 @@ Não iniciar a Fase 2 automaticamente.
 
 ---
 
-# Fase 2 — Arquitetura da Home
+# Fase 2 — Arquitetura e integração da Home (concluída)
 
-## Objetivo
+## Implementação realizada
 
-Dividir a Home sem alterar significativamente o design.
+- Preservados os componentes já extraídos, a composição em `app/page.tsx` e as consultas em `lib/home-content.ts`; nenhum arquivo foi movido por organização.
+- Adicionada ao `Promise.all` a consulta `siteSettings.findUnique({ where: { id: 'main' }, select: ... })`, apenas com campos consumidos pela Home.
+- Criado o tipo explícito `PublicSiteSettings` junto à query; componentes recebem props e não acessam Prisma.
+- Removido `siteConfig`; `lib/site.ts` mantém navegação estrutural. Header foi revisado e permanece sem settings, pois usa somente a marca visual estrutural, `mainNav` e o CTA `#contato`.
+- Brand mantém a apresentação provisória “PRISMMA / SAÚDE INTEGRATIVA”, sem alterar o SVG ou implementar BrandAsset.
+- Hero usa marca, textos opcionais, nome e papel profissional do banco. Textos institucionais anteriores são usados quando título/descrição estão vazios. About usa nome e papel profissional; seus demais textos foram preservados.
+- As duas imagens genéricas existentes receberam `alt=""`, sem atribuir a identidade de Fabio às fotos. As imagens não foram substituídas.
+- Criado `lib/whatsapp.ts`: normalização de número internacional, validação estrutural, retorno nulo para entrada inválida e codificação de mensagem opcional; sem acesso ao banco ou número fixo.
+- CTA final prioriza booking e usa WhatsApp como alternativa; omite botões sem canal disponível. Botão flutuante desaparece sem WhatsApp válido.
+- Footer renderiza somente contatos disponíveis, separadores entre links existentes, endereço opcional e copyright com ano atual e marca do banco.
+- Removidos telefone/e-mail fictícios e Instagram `#`. A fronteira de leitura rejeita URLs externas fora de HTTP/HTTPS e e-mails estruturalmente inválidos.
+- Ausência do registro `main` mantém a página renderizável com marca/nome existentes e contatos/papel profissional nulos. Outros registros não são usados como substitutos. Erros de conexão ou schema ausente não são ocultados.
+- `seoTitle` e `seoDescription` não são consultados nesta fase, pois não há consumidor na Home e SEO permanece fora do escopo.
+- Mantidos Server Components, `force-dynamic`, cache existente, CSS, fontes, cores e layout. Nenhuma dependência foi adicionada.
+- Atualizados README e comentário descritivo de `SiteSettings`; o gerador produziu somente um `COMMENT ON TABLE`, sem alteração estrutural de schema.
 
-Criar:
+## Validações
 
-```text
-components/
-├── brand/
-├── layout/
-└── home/
-```
+Passaram `yarn db:generate`, `yarn prisma validate`, `yarn lint` e `yarn build`.
 
----
+Testes em PostgreSQL local descartável e navegador Chrome verificaram:
 
-### `components/brand/brand.tsx`
+- configuração principal presente e ausente, inclusive existência de outro ID sem `main`;
+- atualização de conteúdo dinâmico e prioridade booking/WhatsApp;
+- WhatsApp, Instagram, e-mail e booking nulos individualmente e todos ausentes;
+- contatos inválidos omitidos, ausência de `href="#"`, separadores corretos e botão flutuante condicional;
+- imagens genéricas com alt decorativo e ausência de erros JavaScript;
+- helper com número formatado, entradas inválidas e mensagem com acentos e caracteres especiais.
 
-Extrair componente `Brand`.
+Inspeção em 320, 768 e 1440 px. Em 768 e 1440 px não houve overflow horizontal. Em 320 px, a largura do documento chegou a 363 px; a comparação com o código anterior confirmou o mesmo problema preexistente na região do Hero. Sua correção fica para a Fase 3, sem mudança de CSS nesta execução. A remoção de contatos inexistentes reduz naturalmente o conteúdo do CTA/Footer.
 
----
-
-### `components/brand/prismma-mark.tsx`
-
-Extrair SVG provisório atual.
-
-Deixar explícito que será substituído pelo logo oficial.
-
----
-
-### `components/layout/header.tsx`
-
-Extrair Header.
-
-Receber configurações necessárias via props.
-
-Não acessar Prisma diretamente.
-
----
-
-### `components/layout/footer.tsx`
-
-Extrair Footer.
-
-Links sociais devem ser preparados para receber dados de `SiteSettings`.
-
----
-
-### `components/home/hero-section.tsx`
-
-Extrair Hero.
-
-Manter inicialmente aparência atual.
-
----
-
-### Demais seções
-
-Criar:
-
-```text
-essence-section.tsx
-protocols-section.tsx
-assessment-section.tsx
-process-section.tsx
-about-section.tsx
-integrative-section.tsx
-testimonials-section.tsx
-faq-section.tsx
-final-cta.tsx
-```
-
-Não transformar esses componentes em Client Components sem necessidade.
-
----
-
-### `lib/queries/home.ts`
-
-Centralizar consultas da Home.
-
-A página deve consumir algo semelhante a:
-
-```ts
-const content = await getHomeContent();
-```
-
-O método deve retornar:
-
-```text
-settings
-protocols
-cards
-faqs
-testimonials
-```
-
----
-
-### `app/page.tsx`
-
-Após a refatoração, deve funcionar principalmente como composição.
-
-Não manter queries Prisma diretamente espalhadas pelo JSX.
-
-Remover:
-
-```ts
-const wa = 'https://wa.me/5500000000000';
-```
-
----
-
-### `lib/whatsapp.ts`
-
-Criar helper responsável por construir URLs do WhatsApp.
-
-Não hardcodar telefone.
-
-Aceitar telefone e mensagem.
-
----
-
-## Critérios da Fase 2
-
-- Home visualmente equivalente à anterior;
-- `page.tsx` significativamente menor;
-- consultas centralizadas;
-- nenhum componente visual acessando Prisma diretamente;
-- WhatsApp preparado para `SiteSettings`;
-- lint e build funcionando.
-
-Parar após concluir a Fase 2.
+Nenhum banco remoto foi alterado. O schema da Fase 1 precisa estar aplicado no ambiente de execução; os contatos reais devem ser preenchidos quando confirmados. A atualização do comentário do banco pode ser aplicada separadamente após revisão do SQL gerado.
 
 ---
 

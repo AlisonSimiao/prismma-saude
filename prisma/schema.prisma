@@ -144,7 +144,7 @@ model BrandAsset {
   updatedAt  DateTime       @default(now()) @updatedAt
 }
 
-/// Configurações institucionais preparadas para integração futura; a interface ainda usa lib/site.ts.
+/// Configurações institucionais da Home; a aplicação consulta exclusivamente o registro main.
 model SiteSettings {
   /// Identificador das configurações principais: main. O schema não impede a criação de outros IDs.
   id               String   @id @default("main")

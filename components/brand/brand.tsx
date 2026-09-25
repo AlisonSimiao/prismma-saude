@@ -1,5 +1,4 @@
 import { PrismmaMark } from '@/components/brand/prismma-mark';
-import { siteConfig } from '@/lib/site';
 
 type BrandProps = {
   href?: string;
@@ -10,8 +9,8 @@ export function Brand({ href = '#inicio' }: BrandProps) {
     <a className="brand" href={href}>
       <PrismmaMark />
       <span>
-        <b>{siteConfig.shortName}</b>
-        <small>{siteConfig.tagline}</small>
+        <b>PRISMMA</b>
+        <small>SAÚDE INTEGRATIVA</small>
       </span>
     </a>
   );

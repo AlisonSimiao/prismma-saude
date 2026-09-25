@@ -1,10 +1,45 @@
 import { cache } from 'react';
 
 import { prisma } from '@/lib/prisma';
-import { siteConfig, type SiteSettings } from '@/lib/site';
+
+export type PublicSiteSettings = {
+  brandName: string;
+  professionalName: string;
+  professionalRole: string | null;
+  whatsapp: string | null;
+  email: string | null;
+  instagramUrl: string | null;
+  bookingUrl: string | null;
+  address: string | null;
+  heroTitle: string | null;
+  heroDescription: string | null;
+};
+
+const fallbackSettings: PublicSiteSettings = {
+  brandName: 'Prismma Saúde Integrativa',
+  professionalName: 'Fabio Leandro',
+  professionalRole: null,
+  whatsapp: null,
+  email: null,
+  instagramUrl: null,
+  bookingUrl: null,
+  address: null,
+  heroTitle: null,
+  heroDescription: null,
+};
+
+function publicUrl(value: string | null): string | null {
+  if (!value?.trim()) return null;
+  try {
+    const url = new URL(value.trim());
+    return ['https:', 'http:'].includes(url.protocol) ? url.href : null;
+  } catch {
+    return null;
+  }
+}
 
 export type HomeContent = {
-  settings: SiteSettings;
+  settings: PublicSiteSettings;
   protocols: ProtocolItem[];
   cards: InstitutionalCardItem[];
   faqs: FaqItem[];
@@ -68,7 +103,22 @@ const selectTestimonial = {
 } as const;
 
 export const getHomeContent = cache(async (): Promise<HomeContent> => {
-  const [protocols, cards, faqs, testimonials] = await Promise.all([
+  const [siteSettings, protocols, cards, faqs, testimonials] = await Promise.all([
+    prisma.siteSettings.findUnique({
+      where: { id: 'main' },
+      select: {
+        brandName: true,
+        professionalName: true,
+        professionalRole: true,
+        whatsapp: true,
+        email: true,
+        instagramUrl: true,
+        bookingUrl: true,
+        address: true,
+        heroTitle: true,
+        heroDescription: true,
+      },
+    }),
     prisma.protocol.findMany({
       where: { active: true },
       orderBy: { order: 'asc' },
@@ -91,5 +141,17 @@ export const getHomeContent = cache(async (): Promise<HomeContent> => {
     }),
   ]);
 
-  return { settings: siteConfig, protocols, cards, faqs, testimonials };
+  const settings: PublicSiteSettings = siteSettings ? {
+    ...siteSettings,
+    professionalRole: siteSettings.professionalRole?.trim() || null,
+    heroTitle: siteSettings.heroTitle?.trim() || null,
+    heroDescription: siteSettings.heroDescription?.trim() || null,
+    address: siteSettings.address?.trim() || null,
+    instagramUrl: publicUrl(siteSettings.instagramUrl),
+    bookingUrl: publicUrl(siteSettings.bookingUrl),
+    email: siteSettings.email && /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(siteSettings.email.trim())
+      ? siteSettings.email.trim() : null,
+  } : fallbackSettings;
+
+  return { settings, protocols, cards, faqs, testimonials };
 });

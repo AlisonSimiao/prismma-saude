@@ -1,11 +1,21 @@
 import { Brand } from '@/components/brand/brand';
-import { mainNav, type SiteSettings } from '@/lib/site';
+import { Fragment } from 'react';
+import { mainNav } from '@/lib/site';
+import type { PublicSiteSettings } from '@/lib/home-content';
+import { getWhatsappUrl } from '@/lib/whatsapp';
 
 type FooterProps = {
-  settings: SiteSettings;
+  settings: PublicSiteSettings;
 };
 
 export function Footer({ settings }: FooterProps) {
+  const whatsappUrl = getWhatsappUrl(settings.whatsapp);
+  const contacts = [
+    { label: 'Instagram', href: settings.instagramUrl },
+    { label: 'WhatsApp', href: whatsappUrl },
+    { label: 'E-mail', href: settings.email ? `mailto:${settings.email}` : null },
+  ].filter((contact): contact is { label: string; href: string } => Boolean(contact.href));
+
   return (
     <footer>
       <Brand />
@@ -17,13 +27,15 @@ export function Footer({ settings }: FooterProps) {
         ))}
       </nav>
       <div>
-        <a href={settings.social.instagram}>Instagram</a>
-        {' · '}
-        <a href={settings.social.whatsapp}>WhatsApp</a>
-        {' · '}
-        <a href={`mailto:${settings.social.email}`}>E-mail</a>
+        {contacts.map((contact, index) => (
+          <Fragment key={contact.label}>
+            {index > 0 && ' · '}
+            <a href={contact.href}>{contact.label}</a>
+          </Fragment>
+        ))}
+        {settings.address && <p>{settings.address}</p>}
       </div>
-      <small>{settings.copyright}</small>
+      <small>© {new Date().getFullYear()} {settings.brandName}. Todos os direitos reservados.</small>
     </footer>
   );
 }

@@ -277,7 +277,7 @@
   "SiteSettings": {
     "table": {
       "tableName": "SiteSettings",
-      "comment": "Configurações institucionais preparadas para integração futura; a interface ainda usa lib/site.ts."
+      "comment": "Configurações institucionais da Home; a aplicação consulta exclusivamente o registro main."
     },
     "columns": [
       {

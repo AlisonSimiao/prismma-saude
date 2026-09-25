@@ -1,15 +1,19 @@
-import type { SiteSettings } from '@/lib/site';
+import { getWhatsappUrl } from '@/lib/whatsapp';
+import type { PublicSiteSettings } from '@/lib/home-content';
 
 type WhatsappFloatProps = {
-  settings: SiteSettings;
+  settings: PublicSiteSettings;
 };
 
 export function WhatsappFloat({ settings }: WhatsappFloatProps) {
+  const whatsappUrl = getWhatsappUrl(settings.whatsapp);
+  if (!whatsappUrl) return null;
+
   return (
     <a
       className="whatsapp"
-      href={settings.contact.whatsapp}
-      aria-label={settings.contact.whatsappLabel}
+      href={whatsappUrl}
+      aria-label="Falar pelo WhatsApp"
     >
       ◔ WhatsApp
     </a>

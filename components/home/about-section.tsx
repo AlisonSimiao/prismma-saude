@@ -1,9 +1,10 @@
 import Image from 'next/image';
+import { Fragment } from 'react';
 
-import type { SiteSettings } from '@/lib/site';
+import type { PublicSiteSettings } from '@/lib/home-content';
 
 type AboutSectionProps = {
-  settings: SiteSettings;
+  settings: PublicSiteSettings;
 };
 
 const FORMATION = [
@@ -15,7 +16,8 @@ const FORMATION = [
 ];
 
 export function AboutSection({ settings }: AboutSectionProps) {
-  const { name, firstName, role } = settings.professional;
+  const { professionalName: name, professionalRole: role } = settings;
+  const firstName = name.trim().split(/\s+/)[0];
 
   return (
     <section className="about" id="fabio">
@@ -24,13 +26,15 @@ export function AboutSection({ settings }: AboutSectionProps) {
           fill
           sizes="(max-width:800px) 100vw, 38vw"
           src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=1000&q=85"
-          alt={`${name}, ${role}`}
+          alt=""
         />
       </div>
       <div className="aboutCopy">
         <p className="eyebrow">SOBRE {firstName.toUpperCase()}</p>
         <h2>
-          Enfermeiro <i>|</i> PhD
+          {role ? role.split('|').map((part, index) => (
+            <Fragment key={index}>{index > 0 && <> <i>|</i> </>}{part.trim()}</Fragment>
+          )) : name}
         </h2>
         <p>
           {name} une a formação em enfermagem, a trajetória acadêmica e a
