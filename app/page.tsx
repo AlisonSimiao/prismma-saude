@@ -16,7 +16,7 @@ function Icon({name}:{name:IconName}){return <svg className="icon" viewBox="0 0 
 // Glyphs stored in InstitutionalCard.icon mapped to the line icons of the approved layout.
 const cardIcons:Record<string,IconName>={'⌁':'user','✦':'atom','♡':'heart','◜':'leaf'};
 function Mark(){return <svg className="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 43 34 24 44 5 34 24 4Z"/><path d="m24 4-9 30m9-30 9 30M5 34h38M24 44V4M15 34l9 10 9-10"/></svg>}
-function Brand(){return <a className="brand" href="#inicio"><Mark/><span><b>PRISMMA</b><small>SAÚDE INTEGRATIVA</small></span></a>}
+function Brand(){return <a className="brand" href="#inicio"><Image className="logo" src="/prismma-logo.png" width={450} height={512} alt=""/><span><b>PRISMMA</b><small>SAÚDE INTEGRATIVA</small></span></a>}
 const links=[['#inicio','Home'],['#prismma','A Prismma'],['#protocolos','Protocolos'],['#fabio','Fabio'],['#contato','Contato']];
 const steps=[['01','Avaliação','Conhecimento inicial e escuta ativa.'],['02','Identificação','Análise dos dados, histórico, exames e contexto.'],['03','Protocolo de cuidado','Estratégia individualizada com base nas suas necessidades.'],['04','Acompanhamento','Monitoramento da evolução e ajustes quando necessário.']];
 const formation=['Enfermagem','Mestrado e PhD','Saúde Integrativa','Avaliação Clínica e Exames','Processo de Enfermagem'];
